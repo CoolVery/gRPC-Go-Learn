@@ -13,41 +13,82 @@ option go_package = "github.com/CoolVery/gRPCLearn/pkg/proto/spaceship/v1;spaces
 
 // SpaceshipInfo - базовая информация о корабле:
 message SpaceshipInfo {
-    // name название корабля
-    string name = 1;
-    //description описание корабля (опционально)
-    google.protobuf.StringValue description = 2;
-    //model модель корабля
-    string model = 3;
-    //manufacturer производитель корабля
-    string manufacturer = 4;
-    //price цена корабля
-    double price = 5;
+  // name название корабля
+  string name = 1;
+  //description описание корабля (опционально)
+  google.protobuf.StringValue description = 2;
+  //model модель корабля
+  string model = 3;
+  //manufacturer производитель корабля
+  string manufacturer = 4;
+  //price цена корабля
+  double price = 5;
 }
-    
+  
 //SpaceshipUpdateInfo - данные для обновления (все поля опциональны) Реализуем для PUT и PATCH
 message SpaceshipUpdateInfo {
-    //name  новое название
-    google.protobuf.StringValue name = 1;
-    //description новое описание
-    google.protobuf.StringValue description = 2;
-    //model новая модель
-    google.protobuf.StringValue model = 3;
-    //manufacturer новый производитель
-    google.protobuf.StringValue manufacturer = 4;
-    //price новая цена
-    google.protobuf.DoubleValue price = 5;
+  //name  новое название
+  google.protobuf.StringValue name = 1;
+  //description новое описание
+  google.protobuf.StringValue description = 2;
+  //model новая модель
+  google.protobuf.StringValue model = 3;
+  //manufacturer новый производитель
+  google.protobuf.StringValue manufacturer = 4;
+  //price новая цена
+  google.protobuf.DoubleValue price = 5;
 }
 
  //Spaceship - полная модель корабля:
 message Spaceship {
-    //uuid уникальный идентификатор
-    string uuid = 1;
-    //info базовая информация
-    SpaceshipInfo info = 2;
-    //created_at время создания
-    google.protobuf.Timestamp created_at = 3;
-    //updated_at время обновления
-    google.protobuf.Timestamp updated_at = 4;
+  //uuid уникальный идентификатор
+  string uuid = 1;
+  //info базовая информация
+  SpaceshipInfo info = 2;
+  //created_at время создания
+  google.protobuf.Timestamp created_at = 3;
+  //updated_at время обновления
+  google.protobuf.Timestamp updated_at = 4;
 }
-    
+  
+service SpaceshipServiceV1 {
+  //Запрос на создание корабля
+  rpc Create(CreateRequest) returns (CreateResponse);
+  //Запрос на получение корабля
+  rpc Get(GetRequest) returns (GetResponse);
+  //Запрос на обновление корабля
+  rpc Update(UpdateRequest) returns (UpdateResponse);
+  //Запрос на удаление корабля
+  rpc Delete(DeleteRequest) returns (google.protobuf.Empty);
+}
+
+//Запрос Create получает объект с информацией о корабле
+message CreateRequest {
+  SpaceshipInfo info = 1;
+}
+//Запрос Create вернет объект корабля
+message CreateResponse {
+  Spaceship spaceship = 1;
+}
+//Запрос Get получает айди корабля
+message GetRequest {
+  string uuid = 1;
+}
+//Запрос Get вернет объект корабля
+message GetResponse {
+  Spaceship spaceship = 1;
+}
+//Запрос Update получает объект новой информации о корабле и айди корабля
+message UpdateRequest {
+  string uuid = 1;
+  SpaceshipInfo spaceshipInfo = 2;
+}
+//Запрос Update вернет объект корабля
+message UpdateResponse {
+  Spaceship spaceship = 1;
+}
+//Запрос Delete получает айди корабля
+message DeleteRequest {
+  string uuid = 1;
+}
+
