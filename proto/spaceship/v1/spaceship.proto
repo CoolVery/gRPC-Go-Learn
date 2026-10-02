@@ -1,0 +1,53 @@
+//Начинается с синтаксиса и указания версии прото
+syntax = "proto3";
+//Пакет, где хранится наш proto
+package spaceship.v1;
+//Импорт для работы со временем
+import "google/protobuf/timestamp.proto";
+//Импорт для работы с StringValue и т.п.
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+//Указываем имя файла у сгенерированного файла
+option go_package = "github.com/CoolVery/gRPCLearn/pkg/proto/spaceship/v1;spaceship_v1";
+
+// SpaceshipInfo - базовая информация о корабле:
+message SpaceshipInfo {
+    // name название корабля
+    string name = 1;
+    //description описание корабля (опционально)
+    google.protobuf.StringValue description = 2;
+    //model модель корабля
+    string model = 3;
+    //manufacturer производитель корабля
+    string manufacturer = 4;
+    //price цена корабля
+    double price = 5;
+}
+    
+//SpaceshipUpdateInfo - данные для обновления (все поля опциональны) Реализуем для PUT и PATCH
+message SpaceshipUpdateInfo {
+    //name  новое название
+    google.protobuf.StringValue name = 1;
+    //description новое описание
+    google.protobuf.StringValue description = 2;
+    //model новая модель
+    google.protobuf.StringValue model = 3;
+    //manufacturer новый производитель
+    google.protobuf.StringValue manufacturer = 4;
+    //price новая цена
+    google.protobuf.DoubleValue price = 5;
+}
+
+ //Spaceship - полная модель корабля:
+message Spaceship {
+    //uuid уникальный идентификатор
+    string uuid = 1;
+    //info базовая информация
+    SpaceshipInfo info = 2;
+    //created_at время создания
+    google.protobuf.Timestamp created_at = 3;
+    //updated_at время обновления
+    google.protobuf.Timestamp updated_at = 4;
+}
+    
